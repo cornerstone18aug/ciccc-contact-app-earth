@@ -4,7 +4,8 @@ public class Contact {
     public String numberHome;
     public String numberCellphone;
     public String direcion;
-    
+
+    public int get
 
 
 }
