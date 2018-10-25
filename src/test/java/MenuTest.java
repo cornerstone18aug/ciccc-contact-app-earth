@@ -25,11 +25,9 @@ public class MenuTest {
   }
 
   @Test
-  public void execute() {
-  }
-
-  @Test
-  public void addUser() {
+  public void isQuit() {
+    assertTrue(menu.isQuit("quit:"));
+    assertFalse(menu.isQuit("quit"));
   }
 
   @Test
