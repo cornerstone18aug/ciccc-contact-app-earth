@@ -2,80 +2,82 @@
  * Contact
  */
 public class Contact {
-    int id;
-    String firstName;
-    String lastName;
-    String numberHome;
-    String numberCellphone;
-    String direction;
-    String email;
 
-    public Contact() {
-    }
+  private int id;
+  private String firstName;
+  private String lastName;
+  private String numberHome;
+  private String numberCellphone;
+  private String direction;
+  private String email;
 
-    public Contact(int id, String firstName, String lastName, String numberHome, String numberCellphone, String direction, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.numberHome = numberHome;
-        this.numberCellphone = numberCellphone;
-        this.direction = direction;
-        this.email = email;
-    }
+  public Contact() {
+  }
 
-    public int getId() {
-        return id;
-    }
+  public Contact(int id, String firstName, String lastName, String numberHome,
+      String numberCellphone, String direction, String email) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.numberHome = numberHome;
+    this.numberCellphone = numberCellphone;
+    this.direction = direction;
+    this.email = email;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public String getFirstName() {
-        return firstName;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+  public String getFirstName() {
+    return firstName;
+  }
 
-    public String getLastName() {
-        return lastName;
-    }
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+  public String getLastName() {
+    return lastName;
+  }
 
-    public String getNumberHome() {
-        return numberHome;
-    }
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
-    public void setNumberHome(String numberHome) {
-        this.numberHome = numberHome;
-    }
+  public String getNumberHome() {
+    return numberHome;
+  }
 
-    public String getNumberCellphone() {
-        return numberCellphone;
-    }
+  public void setNumberHome(String numberHome) {
+    this.numberHome = numberHome;
+  }
 
-    public void setNumberCellphone(String numberCellphone) {
-        this.numberCellphone = numberCellphone;
-    }
+  public String getNumberCellphone() {
+    return numberCellphone;
+  }
 
-    public String getDirection() {
-        return direction;
-    }
+  public void setNumberCellphone(String numberCellphone) {
+    this.numberCellphone = numberCellphone;
+  }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
+  public String getDirection() {
+    return direction;
+  }
+
+  public void setDirection(String direction) {
+    this.direction = direction;
+  }
 }
