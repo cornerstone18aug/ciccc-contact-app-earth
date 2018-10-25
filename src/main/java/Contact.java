@@ -2,11 +2,42 @@
  * Contact
  */
 public class Contact {
-    public String firstName;
-    public String lastName;
-    public String numberHome;
-    public String numberCellphone;
-    public String direcion;
+    int id;
+    String firstName;
+    String lastName;
+    String numberHome;
+    String numberCellphone;
+    String direction;
+    String email;
+
+    public Contact() {
+    }
+
+    public Contact(int id, String firstName, String lastName, String numberHome, String numberCellphone, String direction, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.numberHome = numberHome;
+        this.numberCellphone = numberCellphone;
+        this.direction = direction;
+        this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -40,11 +71,11 @@ public class Contact {
         this.numberCellphone = numberCellphone;
     }
 
-    public String getDirecion() {
-        return direcion;
+    public String getDirection() {
+        return direction;
     }
 
-    public void setDirecion(String direcion) {
-        this.direcion = direcion;
+    public void setDirection(String direction) {
+        this.direction = direction;
     }
 }
