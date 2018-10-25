@@ -19,6 +19,6 @@ public class Driver {
             "rt5rtyg",
             "aaa@gmail.com"));
 
-    new Menu(contacts).menu();
+    new Menu(contacts).execute();
   }
 }
