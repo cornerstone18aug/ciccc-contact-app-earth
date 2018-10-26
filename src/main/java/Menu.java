@@ -9,16 +9,16 @@ import models.Contact;
  */
 public class Menu {
 
-  private List<Contact> contacts;
-  private InputCollector ic = new InputCollector();
-  private final String MENU_STR =
+  private final List<Contact> contacts;
+  private final InputCollector ic = new InputCollector();
+  private static final String MENU_STR =
       "\n\n====== CICCC Contact App =====\n" +
           "  by Enrique, Alejandro, Masa \n" +
           "==============================\n" +
           "%s\n" +
           "==============================\n" +
           "Select an option: ";
-  private final String AFTER_DOING_STH_MSG = "Input Enter to back to Menu.";
+  private static final String AFTER_DOING_STH_MSG = "Input Enter to back to Menu.";
 
   /**
    * Constructor
@@ -37,10 +37,7 @@ public class Menu {
     exit:
     while (true) {
       /* This while will have the switch with the different options that the user can select */
-      System.out.println(String.format(this.MENU_STR,
-          Arrays.stream(Option.values())
-              .map(op -> op.menuMsg)
-              .collect(Collectors.joining("\n"))));
+      showMenuOptionList();
       switch (ic.inputCommand()) {
         case CREATE:
           if (!addContact()) {
@@ -63,6 +60,16 @@ public class Menu {
           throw new IllegalStateException("Unexpected enums.Option detected! ");
       }
     }
+  }
+
+  /**
+   * Show menu and option list
+   */
+  private void showMenuOptionList() {
+    System.out.println(String.format(this.MENU_STR,
+        Arrays.stream(Option.values())
+            .map(op -> op.menuMsg)
+            .collect(Collectors.joining("\n"))));
   }
 
   /**
@@ -238,12 +245,14 @@ public class Menu {
     ic.inputForPrompt(AFTER_DOING_STH_MSG);
   }
 
+  /**
+   * Show 3 history
+   */
   private void showHistory() {
     System.out.println("==============================");
-    ic.getCommands().forEach(cmd -> {
-      System.out.print(cmd.getDateTime().toString() + " : ");
-      System.out.println(cmd.getOption().name());
-    });
+    ic.getCommands().stream()
+        .map(cmd -> cmd.getDateTime().toString() + " : " + cmd.getOption().name())
+        .forEach(System.out::println);
     System.out.println("==============================");
     ic.inputForPrompt(AFTER_DOING_STH_MSG);
   }
