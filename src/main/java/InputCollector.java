@@ -1,6 +1,4 @@
 import enums.Option;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
