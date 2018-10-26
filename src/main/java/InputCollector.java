@@ -1,4 +1,5 @@
 import enums.Option;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
@@ -15,7 +16,8 @@ public class InputCollector {
   private Scanner scanner = new Scanner(System.in);
   private LinkedList<Command> commands = new LinkedList<>();
   private LinkedList<Command> inputs = new LinkedList<>();
-  private static final int HISTORY_SIZE = 3;
+  // set the size which we wanna store - 1
+  private static final int HISTORY_SIZE = 2;
   private static final String BASE_PROMPT_MSG = "Introduce %s: ";
 
   /**
@@ -24,12 +26,29 @@ public class InputCollector {
    * @param fieldName for print
    * @return inputString
    */
-  public String inputForPrompt(String fieldName) {
+  public String inputFieldForPrompt(String fieldName) {
     while (inputs.size() > HISTORY_SIZE) {
       inputs.remove();
     }
     System.out.println(String.format(BASE_PROMPT_MSG, fieldName));
-    Command input = new Command(scanner.next());
+    Command input = new Command(scanner.nextLine());
+    inputs.offer(input);
+
+    return input.getInput();
+  }
+
+  /**
+   * Get input with prompt
+   *
+   * @param msg for print
+   * @return inputString
+   */
+  public String inputForPrompt(String msg) {
+    while (inputs.size() > HISTORY_SIZE) {
+      inputs.remove();
+    }
+    System.out.println(msg);
+    Command input = new Command(scanner.nextLine());
     inputs.offer(input);
 
     return input.getInput();
@@ -50,9 +69,11 @@ public class InputCollector {
     while (true) {
       try {
         inputStr = String.valueOf(scanner.nextInt());
+        scanner.nextLine();
         break;
       } catch (InputMismatchException imE) {
         System.out.println("Only number accepted");
+        scanner = new Scanner(System.in);
       }
     }
 
@@ -76,9 +97,11 @@ public class InputCollector {
     while (true) {
       try {
         option = Option.find(scanner.nextInt());
+        scanner.nextLine();
         break;
-      } catch (IllegalArgumentException iaE) {
+      } catch (IllegalArgumentException | InputMismatchException e) {
         System.out.println("Please input one appropriate number.");
+        scanner = new Scanner(System.in);
       }
     }
 
@@ -91,9 +114,7 @@ public class InputCollector {
    * @return Copied commands
    */
   public LinkedList<Command> getCommands() {
-    LinkedList<Command> copied = new LinkedList<>();
-    Collections.copy(this.commands, copied);
-    return copied;
+    return new LinkedList<>(this.commands);
   }
 }
 

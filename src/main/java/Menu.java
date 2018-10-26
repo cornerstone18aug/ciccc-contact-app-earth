@@ -1,7 +1,6 @@
 import enums.Option;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 import models.Contact;
 
@@ -12,11 +11,6 @@ public class Menu {
 
   private List<Contact> contacts;
   private InputCollector ic = new InputCollector();
-  private Scanner user = new Scanner(System.in);
-  /* This variable will have the value FALSE and if the user select exit it will be true and finish the app */
-  private boolean exit = false;
-  /* This variable will have the option from the user */
-  private Option opt;
   private final String MENU_STR =
       "\n\n====== CICCC Contact App =====\n" +
           "  by Enrique, Alejandro, Masa \n" +
@@ -24,6 +18,7 @@ public class Menu {
           "%s\n" +
           "==============================\n" +
           "Select an option: ";
+  private final String AFTER_DOING_STH_MSG = "Input Enter to back to Menu.";
 
   /**
    * Constructor
@@ -37,7 +32,7 @@ public class Menu {
   /**
    * This is the method for the main menu
    */
-  void execute() {
+  public void execute() {
     // Label for exit
     exit:
     while (true) {
@@ -48,21 +43,18 @@ public class Menu {
               .collect(Collectors.joining("\n"))));
       switch (ic.inputCommand()) {
         case CREATE:
-          if (!addUser()) {
+          if (!addContact()) {
             System.out.println("Register canceled.");
           }
           break;
         case LIST:
-          listUsers();
+          listContacts();
           break;
         case SHOW_DETAIL:
           showDetails(ic.inputId());
           break;
         case HISTORY:
-          ic.getCommands().forEach(cmd -> {
-            System.out.println(cmd.getDateTime().toString());
-            System.out.println(cmd.getOption().name());
-          });
+          showHistory();
           break;
         case EXIT:
           System.out.println("Goodbye see you soon!!!");
@@ -78,65 +70,65 @@ public class Menu {
    *
    * @return registered or not
    */
-  boolean addUser() {
+  public boolean addContact() {
     Contact con = new Contact();
 
     System.out.println("Your are going to add a new contact!!!\n"
         + "To quit, input \"quit:\"\n");
 
     /* We ask for the email before and know if is anyone with that email */
-    con.setEmail(ic.inputForPrompt("unique email"));
+    con.setEmail(ic.inputFieldForPrompt("unique email"));
     if (isQuit(con.getEmail())) {
       return false;
     }
 
     while (!this.checkEmail(con.getEmail())) {
-      con.setEmail(ic.inputForPrompt("unique email"));
+      con.setEmail(ic.inputFieldForPrompt("unique email"));
       if (isQuit(con.getEmail())) {
         return false;
       }
     }
 
     /* We ask for the first name before and know if is anyone with that email */
-    con.setFirstName(ic.inputForPrompt("first name"));
+    con.setFirstName(ic.inputFieldForPrompt("first name"));
     if (isQuit(con.getFirstName())) {
       return false;
     }
 
     /* We ask for the last name before and know if is anyone with that email */
-    con.setLastName(ic.inputForPrompt("last name"));
+    con.setLastName(ic.inputFieldForPrompt("last name"));
     if (isQuit(con.getLastName())) {
       return false;
     }
 
     /* We ask for the number home before and know if is anyone with that email */
-    con.setNumberHome(ic.inputForPrompt("number home"));
+    con.setNumberHome(ic.inputFieldForPrompt("number home"));
     if (isQuit(con.getNumberHome())) {
       return false;
     }
 
     while (!this.checkPhones(con.getNumberHome())) {
-      con.setNumberHome(ic.inputForPrompt("number home"));
+      con.setNumberHome(ic.inputFieldForPrompt("number home"));
       if (isQuit(con.getNumberHome())) {
         return false;
       }
     }
 
     /* We ask for the number cell phone before and know if is anyone with that email */
-    con.setNumberCellphone(ic.inputForPrompt("number cell phone"));
+    con.setNumberCellphone(ic.inputFieldForPrompt("number cell phone"));
     if (isQuit(con.getNumberCellphone())) {
       return false;
     }
 
     while (!checkPhones(con.getNumberCellphone())) {
-      con.setNumberCellphone(ic.inputForPrompt("number cell phone"));
+      con.setNumberCellphone(ic.inputFieldForPrompt("number cell phone"));
       if (isQuit(con.getNumberCellphone())) {
         return false;
       }
     }
 
     /* We ask for the direction home before and know if is anyone with that email */
-    con.setDirection(ic.inputForPrompt("direction"));
+    con.setDirection(ic.inputFieldForPrompt("direction"));
     if (isQuit(con.getDirection())) {
       return false;
     }
@@ -146,7 +138,9 @@ public class Menu {
 
     // We add the information of the contact
     contacts.add(con);
-    System.out.printf("ID: %s, First Name : %s registered!", con.getId(), con.getFirstName());
+
+    System.out.println("ID : " + con.getId() +  "Registered!");
+    this.showDetails(con.getId());
 
     return true;
   }
@@ -157,34 +151,27 @@ public class Menu {
    * @param input input
    * @return when String indicates quit, returns true
    */
-  private boolean isQuit(String input) {
+  public boolean isQuit(String input) {
     return "quit:".equals(input);
   }
 
   /**
    * This method will show to the user all the contacts that he have
    */
-  private void listUsers() {
+  private void listContacts() {
+    System.out.println("==============================");
     for (Contact con : this.contacts) {
       System.out.printf("#%s <%s>\n", con.getId(), con.getFirstName());
     }
+    System.out.println("==============================");
 
-    System.out.println("Do you want to see more information of any contact? y/n\n");
-    String answer = user.next().toLowerCase();
-
+    String answer = ic.inputForPrompt("Do you want to see more information of any contact? y/n");
     /* We check if the answer is YES or NO and depend of the answer we show the details of the contact */
-    switch (answer) {
-      case "yes":
+    switch (answer.toLowerCase()) {
       case "y":
-        int id = ic.inputId();
-        showDetails(id);
-        break;
-      case "no":
-      case "n":
-        System.out.println("Redirecting to the menu...");
+        showDetails(ic.inputId());
         break;
       default:
-        System.out.println("That is not an answer!!! \n" + "Redirecting to the menu...");
         break;
     }
   }
@@ -195,7 +182,7 @@ public class Menu {
    * @param email email
    * @return when it's valid returns true
    */
-  private boolean checkEmail(String email) {
+  public boolean checkEmail(String email) {
     for (Contact con : this.contacts) {
       if (con.getEmail().equals(email)) {
         System.out.println("There is one contact with that email, introduce another one!!!");
@@ -211,7 +198,7 @@ public class Menu {
    * @param phone phone
    * @return when it's valid returns true
    */
-  private boolean checkPhones(String phone) {
+  public boolean checkPhones(String phone) {
     try {
       Integer.parseInt(phone);
       return true;
@@ -226,22 +213,39 @@ public class Menu {
    *
    * @param id input
    */
-  void showDetails(int id) {
-    Contact con = contacts.get(id);
-        /* With the id we know which contact we have to search so we use the id following the details of the contact
-          like the name, email, etc. */
-    if (con == null) {
+  private void showDetails(int id) {
+    if (id < 0 || this.contacts.size() - 1 < id) {
       System.out.println("ID not found.");
-    } else {
-      /* We show the details of the contact */
-      System.out.println(
-          "ID: " + con.getId() + ", First Name: " + con.getFirstName()
-              + ", Last Name: " + con.getLastName() +
-              ", Email: " + con.getEmail() + ", Home Phone: " + con
-              .getNumberHome() + ", Mobile: " + con.getNumberCellphone() +
-              ", Direction: " + con.getDirection()
-      );
+      return;
     }
+    Contact con = contacts.get(id);
+    /**
+     * With the id we know which contact we have to search
+     *  so we use the id following the details of the contact like the name, email, etc.
+     */
+    /* We show the details of the contact */
+    System.out.println(
+        "==================================" +
+            "\nID: " + con.getId() +
+            "\nFirst Name: " + con.getFirstName() +
+            "\nLast Name: " + con.getLastName() +
+            "\nEmail: " + con.getEmail() +
+            "\nHome Phone: " + con.getNumberHome() +
+            "\nMobile: " + con.getNumberCellphone() +
+            "\nDirection: " + con.getDirection() +
+            "\n=================================="
+    );
+    ic.inputForPrompt(AFTER_DOING_STH_MSG);
+  }
+
+  private void showHistory() {
+    System.out.println("==============================");
+    ic.getCommands().forEach(cmd -> {
+      System.out.print(cmd.getDateTime().toString() + " : ");
+      System.out.println(cmd.getOption().name());
+    });
+    System.out.println("==============================");
+    ic.inputForPrompt(AFTER_DOING_STH_MSG);
   }
 
 }
