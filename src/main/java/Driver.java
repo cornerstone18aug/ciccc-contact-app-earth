@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import models.Contact;
 
 /**
  * Driver for contact app
@@ -16,7 +17,7 @@ public class Driver {
             "Park",
             "dwrer3454re",
             "r5fdt5er",
-            "rt5rtyg",
+            "r4t5rtyg",
             "aaa@gmail.com"));
 
     new Menu(contacts).execute();
