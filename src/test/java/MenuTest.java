@@ -26,12 +26,6 @@ public class MenuTest {
   }
 
   @Test
-  public void isQuit() {
-    assertTrue(menu.isQuit("quit:"));
-    assertFalse(menu.isQuit("quit"));
-  }
-
-  @Test
   public void checkEmail() {
     assertFalse(menu.checkEmail("aaa@gmail.com"));
     assertTrue(menu.checkEmail("bbb@gmail.com"));
