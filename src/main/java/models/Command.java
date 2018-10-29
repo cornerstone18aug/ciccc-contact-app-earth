@@ -2,12 +2,14 @@ package models;
 
 import enums.Option;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Command for history
  */
 public class Command {
-
+  private static final DateTimeFormatter FORMATTER =
+      DateTimeFormatter.ofPattern("yyyy/MM/dd []H:mm:ss");
   private String input;
   private Option option;
   private LocalDateTime dateTime = LocalDateTime.now();
@@ -16,7 +18,8 @@ public class Command {
     this.option = option;
   }
 
-  public Command(String input) {
+  public Command(Option option, String input) {
+    this.option = option;
     this.input = input;
   }
 
@@ -28,7 +31,16 @@ public class Command {
     return option;
   }
 
-  public LocalDateTime getDateTime() {
-    return dateTime;
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(this.dateTime.format(FORMATTER)).append(" ");
+    sb.append(option.name());
+
+    if (this.input != null) {
+      sb.append(" \"").append(input).append("\"");
+    }
+
+    return sb.toString();
   }
 }
