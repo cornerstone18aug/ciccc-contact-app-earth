@@ -4,19 +4,20 @@ package enums;
  * Option for command
  */
 public enum Option {
-  CREATE(1, "-- 1. Create a new contact ---"),
-  LIST(2, "-- 2. List all the contacts --"),
-  SHOW_DETAIL(3, "-- 3. Show detail from id ----"),
-  HISTORY(4, "-- 4. Show past 3 commands ---"),
-  FIND(5, "-- 5. Find from name or mail -"),
-  EXIT(9, "---------- 9. Exit -----------");
+  CREATE(1, "-- %s. Create a new contact ---"),
+  LIST(2, "-- %s. List all the contacts --"),
+  SHOW_DETAIL(3, "-- %s. Show detail from id ----"),
+  CMD_HISTORY(4, "-- %s. Show past 3 commands ---"),
+  INPUT_HISTORY(5, "-- %s. Show past 3 inputs -----"),
+  FIND(6, "-- %s. Find from name or mail -"),
+  EXIT(9, "---------- %s. Exit -----------");
 
   public final int optionNum;
   public final String menuMsg;
 
   Option(int optionNum, String menuMsg) {
     this.optionNum = optionNum;
-    this.menuMsg = menuMsg;
+    this.menuMsg = String.format(menuMsg, optionNum);
   }
 
   /**
