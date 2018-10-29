@@ -82,4 +82,34 @@ public class Contact {
   public void setDirection(String direction) {
     this.direction = direction;
   }
+
+  /**
+   * Check number phone
+   *
+   * @return when it's valid returns true
+   */
+  public boolean isValidNumberHome() {
+    try {
+      Integer.parseInt(this.numberHome);
+      return true;
+    } catch (NumberFormatException e) {
+      System.out.println("Only you can introduce numbers!!!");
+      return false;
+    }
+  }
+
+  /**
+   * Check number cell phone
+   *
+   * @return when it's valid returns true
+   */
+  public boolean isValidNumberCellphone() {
+    try {
+      Integer.parseInt(this.numberCellphone);
+      return true;
+    } catch (NumberFormatException e) {
+      System.out.println("Only you can introduce numbers!!!");
+      return false;
+    }
+  }
 }

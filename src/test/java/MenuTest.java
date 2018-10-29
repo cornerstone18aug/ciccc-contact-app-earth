@@ -27,13 +27,7 @@ public class MenuTest {
 
   @Test
   public void checkEmail() {
-    assertFalse(menu.checkEmail("aaa@gmail.com"));
-    assertTrue(menu.checkEmail("bbb@gmail.com"));
-  }
-
-  @Test
-  public void checkPhones() {
-    assertTrue(menu.checkPhones("23457809"));
-    assertFalse(menu.checkPhones("2-3457809"));
+    assertFalse(menu.checkUniqueEmail("aaa@gmail.com"));
+    assertTrue(menu.checkUniqueEmail("bbb@gmail.com"));
   }
 }

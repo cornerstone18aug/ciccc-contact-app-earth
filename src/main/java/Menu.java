@@ -2,7 +2,6 @@ import enums.Option;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import models.Command;
 import models.Contact;
 
 /**
@@ -95,7 +94,7 @@ public class Menu {
       return false;
     }
 
-    while (!this.checkEmail(con.getEmail())) {
+    while (!this.checkUniqueEmail(con.getEmail())) {
       con.setEmail(ic.inputFieldForPrompt("unique email"));
       if (ic.isQuit(con.getEmail())) {
         return false;
@@ -120,7 +119,7 @@ public class Menu {
       return false;
     }
 
-    while (!this.checkPhones(con.getNumberHome())) {
+    while (!con.isValidNumberHome()) {
       con.setNumberHome(ic.inputFieldForPrompt("number home"));
       if (ic.isQuit(con.getNumberHome())) {
         return false;
@@ -133,7 +132,7 @@ public class Menu {
       return false;
     }
 
-    while (!checkPhones(con.getNumberCellphone())) {
+    while (!con.isValidNumberCellphone()) {
       con.setNumberCellphone(ic.inputFieldForPrompt("number cell phone"));
       if (ic.isQuit(con.getNumberCellphone())) {
         return false;
@@ -186,7 +185,7 @@ public class Menu {
    * @param email email
    * @return when it's valid returns true
    */
-  public boolean checkEmail(String email) {
+  public boolean checkUniqueEmail(String email) {
     for (Contact con : this.contacts) {
       if (con.getEmail().equals(email)) {
         System.out.println("There is one contact with that email, introduce another one!!!");
@@ -194,22 +193,6 @@ public class Menu {
       }
     }
     return true;
-  }
-
-  /**
-   * Check phone number
-   *
-   * @param phone phone
-   * @return when it's valid returns true
-   */
-  public boolean checkPhones(String phone) {
-    try {
-      Integer.parseInt(phone);
-      return true;
-    } catch (NumberFormatException e) {
-      System.out.println("Only you can introduce numbers in the phone!!!");
-      return false;
-    }
   }
 
   /**
