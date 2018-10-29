@@ -2,6 +2,7 @@ import enums.Option;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import models.Command;
 import models.Contact;
 
 /**
@@ -18,7 +19,6 @@ public class Menu {
           "%s\n" +
           "==============================\n" +
           "Select an option: ";
-  private static final String AFTER_DOING_STH_MSG = "Input Enter to back to Menu.";
 
   /**
    * Constructor
@@ -48,10 +48,13 @@ public class Menu {
           listContacts();
           break;
         case SHOW_DETAIL:
-          showDetails(ic.inputId());
+          showDetails(ic.inputId(Option.SHOW_DETAIL));
           break;
-        case HISTORY:
-          showHistory();
+        case CMD_HISTORY:
+          showCommandHistory();
+          break;
+        case INPUT_HISTORY:
+          showInputHistory();
           break;
         case FIND:
           find();
@@ -69,7 +72,7 @@ public class Menu {
    * Show menu and option list
    */
   private void showMenuOptionList() {
-    System.out.println(String.format(this.MENU_STR,
+    System.out.println(String.format(MENU_STR,
         Arrays.stream(Option.values())
             .map(op -> op.menuMsg)
             .collect(Collectors.joining("\n"))));
@@ -88,58 +91,58 @@ public class Menu {
 
     /* We ask for the email before and know if is anyone with that email */
     con.setEmail(ic.inputFieldForPrompt("unique email"));
-    if (isQuit(con.getEmail())) {
+    if (ic.isQuit(con.getEmail())) {
       return false;
     }
 
     while (!this.checkEmail(con.getEmail())) {
       con.setEmail(ic.inputFieldForPrompt("unique email"));
-      if (isQuit(con.getEmail())) {
+      if (ic.isQuit(con.getEmail())) {
         return false;
       }
     }
 
     /* We ask for the first name before and know if is anyone with that email */
     con.setFirstName(ic.inputFieldForPrompt("first name"));
-    if (isQuit(con.getFirstName())) {
+    if (ic.isQuit(con.getFirstName())) {
       return false;
     }
 
     /* We ask for the last name before and know if is anyone with that email */
     con.setLastName(ic.inputFieldForPrompt("last name"));
-    if (isQuit(con.getLastName())) {
+    if (ic.isQuit(con.getLastName())) {
       return false;
     }
 
     /* We ask for the number home before and know if is anyone with that email */
     con.setNumberHome(ic.inputFieldForPrompt("number home"));
-    if (isQuit(con.getNumberHome())) {
+    if (ic.isQuit(con.getNumberHome())) {
       return false;
     }
 
     while (!this.checkPhones(con.getNumberHome())) {
       con.setNumberHome(ic.inputFieldForPrompt("number home"));
-      if (isQuit(con.getNumberHome())) {
+      if (ic.isQuit(con.getNumberHome())) {
         return false;
       }
     }
 
     /* We ask for the number cell phone before and know if is anyone with that email */
     con.setNumberCellphone(ic.inputFieldForPrompt("number cell phone"));
-    if (isQuit(con.getNumberCellphone())) {
+    if (ic.isQuit(con.getNumberCellphone())) {
       return false;
     }
 
     while (!checkPhones(con.getNumberCellphone())) {
       con.setNumberCellphone(ic.inputFieldForPrompt("number cell phone"));
-      if (isQuit(con.getNumberCellphone())) {
+      if (ic.isQuit(con.getNumberCellphone())) {
         return false;
       }
     }
 
     /* We ask for the direction home before and know if is anyone with that email */
     con.setDirection(ic.inputFieldForPrompt("direction"));
-    if (isQuit(con.getDirection())) {
+    if (ic.isQuit(con.getDirection())) {
       return false;
     }
 
@@ -156,30 +159,21 @@ public class Menu {
   }
 
   /**
-   * isQuit
-   *
-   * @param input input
-   * @return when String indicates quit, returns true
-   */
-  public boolean isQuit(String input) {
-    return "quit:".equals(input);
-  }
-
-  /**
    * This method will show to the user all the contacts that he have
    */
   private void listContacts() {
+    Option option = Option.LIST;
     System.out.println("==============================");
     for (Contact con : this.contacts) {
       System.out.printf("#%s <%s>\n", con.getId(), con.getFirstName());
     }
     System.out.println("==============================");
 
-    String answer = ic.inputForPrompt("Do you want to see more information of any contact? y/n");
+    String answer = ic.inputForPrompt(option, "Do you want to see more information of any contact? y/n");
     /* We check if the answer is YES or NO and depend of the answer we show the details of the contact */
     switch (answer.toLowerCase()) {
       case "y":
-        showDetails(ic.inputId());
+        showDetails(ic.inputId(option));
         break;
       default:
         break;
@@ -246,26 +240,35 @@ public class Menu {
       );
     }
 
-    ic.inputForPrompt(AFTER_DOING_STH_MSG);
+    ic.enterForPrompt();
   }
 
   /**
-   * Show 3 history
+   * Show 3 history of commands
    */
-  private void showHistory() {
+  private void showCommandHistory() {
     System.out.println("==============================");
-    ic.getCommands().stream()
-        .map(cmd -> cmd.getDateTime().toString() + " : " + cmd.getOption().name())
-        .forEach(System.out::println);
+    ic.getCommands().forEach(System.out::println);
     System.out.println("==============================");
-    ic.inputForPrompt(AFTER_DOING_STH_MSG);
+    ic.enterForPrompt();
+  }
+
+  /**
+   * Show 3 history of inputs
+   */
+  private void showInputHistory() {
+    System.out.println("==============================");
+    ic.getInputs().forEach(System.out::println);
+    System.out.println("==============================");
+    ic.enterForPrompt();
   }
 
   /**
    * Find contacts from certain word
    */
   private void find() {
-    String searchWord = ic.inputForPrompt("Search word:").toLowerCase();
+    Option option = Option.FIND;
+    String searchWord = ic.inputForPrompt(option, "Search word:").toLowerCase();
     List<Contact> filteredList = this.contacts.stream()
         .filter(con -> con.getEmail().toLowerCase().contains(searchWord)
             || con.getFirstName().toLowerCase().contains(searchWord)
@@ -289,7 +292,7 @@ public class Menu {
 
     System.out.println("==================================");
 
-    ic.inputForPrompt(AFTER_DOING_STH_MSG);
+    ic.enterForPrompt();
 
   }
 }
