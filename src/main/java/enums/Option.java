@@ -8,7 +8,7 @@ public enum Option {
   LIST(2, "-- 2. List all the contacts --"),
   SHOW_DETAIL(3, "-- 3. Show detail from id ----"),
   HISTORY(4, "-- 4. Show past 3 commands ---"),
-  FIND(5, "-- 5. Find a contact ---------"),
+  FIND(5, "-- 5. Find from name or mail -"),
   EXIT(9, "---------- 9. Exit -----------");
 
   public final int optionNum;
