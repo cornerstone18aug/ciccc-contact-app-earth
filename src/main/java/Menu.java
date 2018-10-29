@@ -53,6 +53,9 @@ public class Menu {
         case HISTORY:
           showHistory();
           break;
+        case FIND:
+          find();
+          break;
         case EXIT:
           System.out.println("Goodbye see you soon!!!");
           break exit;
@@ -257,4 +260,35 @@ public class Menu {
     ic.inputForPrompt(AFTER_DOING_STH_MSG);
   }
 
+  /**
+   * Find contacts from certain word
+   */
+  private void find() {
+    String searchWord = ic.inputForPrompt("Search word:");
+    List<Contact> filteredList = this.contacts.stream()
+        .filter(con -> con.getEmail().contains(searchWord)
+            || con.getFirstName().contains(searchWord)
+            || con.getLastName().contains(searchWord))
+        .collect(Collectors.toList());
+
+    System.out.println(String.format("%s records found", filteredList.size()));
+
+    filteredList.forEach(fCon ->
+      System.out.println(
+          "==================================" +
+              "\nID: " + fCon.getId() +
+              "\nFirst Name: " + fCon.getFirstName() +
+              "\nLast Name: " + fCon.getLastName() +
+              "\nEmail: " + fCon.getEmail() +
+              "\nHome Phone: " + fCon.getNumberHome() +
+              "\nMobile: " + fCon.getNumberCellphone() +
+              "\nDirection: " + fCon.getDirection()
+      )
+    );
+
+    System.out.println("==================================");
+
+    ic.inputForPrompt(AFTER_DOING_STH_MSG);
+
+  }
 }

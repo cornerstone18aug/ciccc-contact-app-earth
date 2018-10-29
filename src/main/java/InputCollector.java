@@ -19,7 +19,7 @@ public class InputCollector {
   private static final String BASE_PROMPT_MSG = "Introduce %s: ";
 
   /**
-   * Get input with prompt
+   * Get input field with prompt
    *
    * @param fieldName for print
    * @return inputString
