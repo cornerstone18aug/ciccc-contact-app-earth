@@ -225,26 +225,27 @@ public class Menu {
    */
   private void showDetails(int id) {
     if (id < 0 || this.contacts.size() - 1 < id) {
-      System.out.println("ID not found.");
-      return;
+      System.out.println("Not found.");
+    } else {
+      Contact con = contacts.get(id);
+      /**
+       * With the id we know which contact we have to search
+       *  so we use the id following the details of the contact like the name, email, etc.
+       */
+      /* We show the details of the contact */
+      System.out.println(
+          "==================================" +
+              "\nID: " + con.getId() +
+              "\nFirst Name: " + con.getFirstName() +
+              "\nLast Name: " + con.getLastName() +
+              "\nEmail: " + con.getEmail() +
+              "\nHome Phone: " + con.getNumberHome() +
+              "\nMobile: " + con.getNumberCellphone() +
+              "\nDirection: " + con.getDirection() +
+              "\n=================================="
+      );
     }
-    Contact con = contacts.get(id);
-    /**
-     * With the id we know which contact we have to search
-     *  so we use the id following the details of the contact like the name, email, etc.
-     */
-    /* We show the details of the contact */
-    System.out.println(
-        "==================================" +
-            "\nID: " + con.getId() +
-            "\nFirst Name: " + con.getFirstName() +
-            "\nLast Name: " + con.getLastName() +
-            "\nEmail: " + con.getEmail() +
-            "\nHome Phone: " + con.getNumberHome() +
-            "\nMobile: " + con.getNumberCellphone() +
-            "\nDirection: " + con.getDirection() +
-            "\n=================================="
-    );
+
     ic.inputForPrompt(AFTER_DOING_STH_MSG);
   }
 
