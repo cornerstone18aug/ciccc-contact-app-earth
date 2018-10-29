@@ -264,14 +264,14 @@ public class Menu {
    * Find contacts from certain word
    */
   private void find() {
-    String searchWord = ic.inputForPrompt("Search word:");
+    String searchWord = ic.inputForPrompt("Search word:").toLowerCase();
     List<Contact> filteredList = this.contacts.stream()
-        .filter(con -> con.getEmail().contains(searchWord)
-            || con.getFirstName().contains(searchWord)
-            || con.getLastName().contains(searchWord))
+        .filter(con -> con.getEmail().toLowerCase().contains(searchWord)
+            || con.getFirstName().toLowerCase().contains(searchWord)
+            || con.getLastName().toLowerCase().contains(searchWord))
         .collect(Collectors.toList());
 
-    System.out.println(String.format("%s records found", filteredList.size()));
+    System.out.println(String.format("%s record(s) found", filteredList.size()));
 
     filteredList.forEach(fCon ->
       System.out.println(
